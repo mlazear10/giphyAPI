@@ -1,8 +1,10 @@
+
+$(document).ready(function() {
 // Page loaded
-$(function() {
- console.log("Page loaded");
- renderButtons();
-});
+ $(function() {
+  console.log("Page loaded");
+  renderButtons();
+ });
 
 //Create array of food buttons
 var food = ["Mango", "bananas", "apples", "carrots", "beets", "french fries", "beans"];
@@ -46,6 +48,28 @@ function displayFoodInfo() {
 
 }
 
+function getApi() {
+  //console.log("a click");
+  var content = $(this).text();
+  queryURL ="http://api.giphy.com/v1/gifs/search?q="+content+"&api_key=83b6f797941e41fb940e70d7a6fa9d09&limit=10";
+         $("#gifAdd").empty();
+
+        $.ajax({
+            url: queryURL,
+            method: "GET"
+        }).done(function(response)
+            {
+                for (var i = 0; i < 10; i++)
+                 {        
+                console.log(response.data[i].images.original_still.url);
+                var myimg = $('<div class="thumbnail imageShown" data-status="still" data-text='+response.data[i].rating+' data-scr='+response.data[i].images.original_still.url+' value='+response.data[i].images.original.url+'><img id="myimg" src=' +response.data[i].images.original_still.url+ '> Rating: '+response.data[i].rating+'</div>' );
+                $("#gifAdd").append(myimg);
+            }
+
+        })
+    }
 
 
+//Closes out jQuery
+});
 
